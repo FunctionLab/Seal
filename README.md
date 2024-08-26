@@ -23,6 +23,10 @@ cd Seal
 sh ./download_resources.sh
 ```
 
+- [Seal model](https://doi.org/10.5281/zenodo.13363451)
+- [Seal framework resources](https://doi.org/10.5281/zenodo.13368284)
+
+
 ## Usage
 
 ### Context-specific prediction of variant effects on expression
