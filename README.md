@@ -1,4 +1,4 @@
-# *Seal*: *S*equence-to-*e*xpression tr*a*nsfer *l*earning framework for context-specific prediction of variant effects on expression 
+# **Seal**: **S**equence-to-**e**xpression tr**a**nsfer **l**earning framework for context-specific prediction of variant effects on expression 
 
 **Yun Hao, Chandra L. Theesfeld, and Olga G. Troyanskaya**
 
