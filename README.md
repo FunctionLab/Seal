@@ -23,7 +23,7 @@ cd Seal
 sh ./download_resources.sh
 ```
 
-- [Seal model](https://doi.org/10.5281/zenodo.13363451)
+- [Seal model](https://doi.org/10.5281/zenodo.14104608)
 - [Seal framework resources](https://doi.org/10.5281/zenodo.13368284)
 
 
@@ -75,6 +75,21 @@ python seal_train.py --general_exp_file <general context expression file> --pret
 Additional arguments: 
 - `--pretrained`: bool specifying whether the pretrained model exists (True in this case)
 - `--pretrained_name`: path where pre-trained files are stored. Same format as `--out_name`. Pre-trained files will be loaded based on the specified path and our naming scheme.
+
+### Interpreting trained transfer learning model to compute attribution scores of chromatin features
+
+Command line ([example bash script](test/interpret/test_var_interpret.sh)):
+```bash
+python seal_interpret.py --vcf_file <variant vcf file> --model_info_file <Seal model summary file> --interpret_method <interpretation method> --outcome_id <outcome index> --out_file <output feature attribution file>
+```
+
+Arguments:
+- `--vcf_file`: input VCF file (hg19-based coordinate; [example](test/predict/test_var.vcf))
+- `--model_info_file`: input Seal model info file (contains pre-trained and fine-tuned model file location and hidden layer info; [example](model/tissue_state_early_fetal_to_adult/tissue_state_early_fetal_to_adult_seal_model_summary.txt))
+- `-interpret_method`: interpretation method to be implemented; (Method options: 'saliency', 'integratedGradients', 'deeplift', 'kernalShap', 'gradientShap', 'lime')
+- `--outcome_id`: column index of outcome to be interpreted  
+- `--out_file`: output feature attribution file ([example](test/interpret/test_var_tissue_state_early_fetal_to_adult_deeplift_attribution_score_outcome_0.npy))
+
 
 ## Help
 Please post in the Github issues or e-mail Yun Hao [yhao@flatironinstitute.org](mailto:yhao@flatironinstitute.org) with any questions about the repository, requests for more data, etc.

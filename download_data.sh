@@ -1,7 +1,7 @@
 # !/usr/bin/env bash
 
 # Trained Seal model
-wget https://zenodo.org/record/13363451/files/seal_model.tar.gz
+wget https://zenodo.org/record/14104608/files/seal_model.tar.gz
 
 tar -xzvf seal_model.tar.gz
 
