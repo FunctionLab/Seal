@@ -60,7 +60,7 @@ for isv, sv in enumerate(shift_vec):
     sv_ref_pred, sv_alt_pred, nl_ref_match = epi_effect.predict_variant_chromatin_effect(var_info_df, args.ref_genome_file, sv, args.seq_len, args.seq_model_file, args.n_feature, args.batch_size)
     # transform the predicted chromatin profile of TSS-proximal region by exponential function (Seal module 2)
     sv_ref_exp, sv_alt_exp = epi_effect.transform_chromatin_by_exp(sv_ref_pred, sv_alt_pred, sv, var_info_df, nearest_gene_dict, args.n_feature)
-    # call specified method to compute ttribution scores of chromatin features for the predicted variant effect 
+    # call specified method to compute attribution scores of chromatin features for the predicted variant effect 
     isv_diff_attri = interpretation.compute_attribution_score(sv_ref_exp, sv_alt_exp, model_info_dict['Optimal pretrain model'], model_info_dict['Optimal finetune model'], N_gen, N_spe, N_latent_feat, args.n_feature, args.interpret_method, args.outcome_id)
     diff_attri = diff_attri + isv_diff_attri
     

@@ -1,6 +1,6 @@
 # !/usr/bin/env bash
 ## created by Yun Hao @FunctionLab 2023
-## This script contains command line examples that implement the Seal framework for variant effect prediction in tissue and cell states of brain development
+## This script contains command line examples that implement the Seal interpretation framework that computes attribution scores of chromatin features for the predicted variant effect 
 
 # Usage:
 # python seal_interpret.py --vcf_file <variant vcf file> --model_info_file <Seal model summary file> --interpret_method <interpretation method> --outcome_id <outcome index> --out_file <output feature attritbution file>
