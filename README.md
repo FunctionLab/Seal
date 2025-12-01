@@ -1,10 +1,10 @@
-# *Seal*: *S*equence-to-*e*xpression tr*a*nsfer *l*earning framework for context-specific prediction of variant effects on expression 
+# *Seal*: A Transfer Learning Framework for Sequence-Based Expression Modeling with Spatiotemporal Cell State Resolution
 
-**Yun Hao, Chandra L. Theesfeld, and Olga G. Troyanskaya**
+**Yun Hao, Christopher Y. Park, Chandra L. Theesfeld, and Olga G. Troyanskaya**
 
 **Flatiron Institute, Princeton University**
 
-Seal is a framework for training sequence-based deep learning models that predict variant effect on gene expression in specific biological contexts with limited data. Seal adopts a transfer learning scheme that first pre-train on extensive-profiled expression data under general contexts, then fine-tune the model towards context-specific expression data. We applied the SEAL framework to train models predicting gene expression of brain development at both tissue and cell type resolution. In total, our trained Seal models can predict variant effects on gene expression under 122 tissue states and 680 cell states from early fetal to adulthood. This repository contains code for training sequence-to-expression models with Seal framework, and implementing the framework for variant effect prediction in tissue and cell states of brain development. 
+Seal is an interpretable deep learning framework that enables high-resolution, context-specific prediction of transcriptional effects of genetic variants—with a particular focus on brain development and neuropsychiatric conditions. Seal addresses a core challenge in systems biology and precision medicine: how to decode the functional effects of genomic variation in highly specific cellular and developmental contexts, such as early fetal brain states, where data are sparse and cell states are transient. This is currently an unsolved problem due to complexity of these systems that require a high level of biological resolution and ability of the models to overcome extreme data limitations. Seal overcomes both barriers with a novel transfer learning–based neural architecture that integrates abundant expression data from general brain contexts with limited data from rare, developmentally specific cell types. As a result, Seal achieves unprecedented coverage for modeling these transcriptional systems—accurately modeling gene expression and variant effects across 802 brain-specific contexts, spanning 26 regions, 30 cell types, and seven developmental stages. Seal is not only accurate but mechanistically insightful. It links sequence variants to specific regulatory mechanisms, such as transcription factors and histone modifications, allowing direct interpretation of predicted biological effects through underlying biological drivers. 
 
 The Seal framework is described in the following manuscript: [Link]()
 
@@ -24,7 +24,7 @@ sh ./download_resources.sh
 ```
 
 - [Seal model](https://doi.org/10.5281/zenodo.14104608)
-- [Seal framework resources](https://doi.org/10.5281/zenodo.13368284)
+- [Seal resource](https://doi.org/10.5281/zenodo.13368284)
 
 
 ## Usage
