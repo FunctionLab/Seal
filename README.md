@@ -1,10 +1,26 @@
+<p align="center">
+  <img height="300" src="image/Seal_logo.png">
+</p>
+
 # *Seal*: A Transfer Learning Framework for Sequence-Based Expression Modeling with Spatiotemporal Cell State Resolution
 
 **Yun Hao, Christopher Y. Park, Chandra L. Theesfeld, and Olga G. Troyanskaya**
 
 **Flatiron Institute, Princeton University**
 
-Seal is an interpretable deep learning framework that enables high-resolution, context-specific prediction of transcriptional effects of genetic variants—with a particular focus on brain development and neuropsychiatric conditions. Seal addresses a core challenge in systems biology and precision medicine: how to decode the functional effects of genomic variation in highly specific cellular and developmental contexts, such as early fetal brain states, where data are sparse and cell states are transient. This is currently an unsolved problem due to complexity of these systems that require a high level of biological resolution and ability of the models to overcome extreme data limitations. Seal overcomes both barriers with a novel transfer learning–based neural architecture that integrates abundant expression data from general brain contexts with limited data from rare, developmentally specific cell types. As a result, Seal achieves unprecedented coverage for modeling these transcriptional systems—accurately modeling gene expression and variant effects across 802 brain-specific contexts, spanning 26 regions, 30 cell types, and seven developmental stages. Seal is not only accurate but mechanistically insightful. It links sequence variants to specific regulatory mechanisms, such as transcription factors and histone modifications, allowing direct interpretation of predicted biological effects through underlying biological drivers. 
+Understanding how genetic variation influences gene expression in specific cellular contexts is a central challenge in human genetics and neuroscience. This problem is particularly acute in the context of human brain development, where gene regulation varies across brain regions, cell types, and stages of development, many of which are transient and difficult to profile experimentally. Seal addresses this challenge by providing a sequence-based framework for predicting gene expression and variant effects across 802 brain-specific contexts, including 122 brain region states spanning 26 regions and 7 stages, and 680 cell states spanning 30 cell types across 23 regions and 7 stages. In benchmarking, Seal demonstrates strong performance in capturing cell-state-specific gene expression patterns, with improved resolution compared to existing sequence-based models such as Enformer and AlphaGenome.
+
+<p align="center">
+  <img height="600" src="image/Seal_model.png">
+</p>
+
+Seal adopts a transfer learning framework that enables accurate modeling in data-scarce settings (shown in the Figure above). First, a convolutional neural network takes a 40 kb DNA sequence centered around each gene’s transcription start site (±20 kb) and transforms it into a rich set of 2,002 epigenomic features, including 690 transcription factor (TF) binding profiles, 978 histone modification marks, and 334 DNase hypersensitivity signals. These features are computed across sliding windows along the sequence and subsequently aggregated using exponential decay functions that assign higher weights to regions proximal to the TSS, capturing spatial regulatory effects. This spatial integration reduces the feature space to 20,020 sequence-derived features used as input for downstream modeling. In the pre-training stage, a multilayer perceptron learns a shared latent regulatory representation from large-scale gene expression datasets across general contexts. During fine-tuning, this representation is adapted to the context-specific gene expression profiling of brain region states and cell states by updating only a subset of model parameters, allowing robust prediction even when data are limited.
+
+<p align="center">
+  <img height="600" src="image/Var_pred.png">
+</p>
+
+To predict variant effects, Seal compares model outputs between reference and alternative alleles (shown in the Figure above). For each variant, the surrounding sequence is passed through the trained model to generate predicted gene expression, and the difference between alleles is interpreted as the variant’s regulatory effect. Because predictions are derived directly from sequence, Seal can evaluate any variant independently of population frequency or linkage disequilibrium. In addition, the model provides feature attribution scores that link variant effects to underlying regulatory mechanisms, such as disruption of transcription factor binding or chromatin states, enabling both prioritization and mechanistic interpretation of genetic variants.
 
 The Seal framework is described in the following manuscript: [Link]()
 
@@ -42,7 +58,8 @@ Arguments:
 - `--out_file`: output result file of variant effect predictions ([example](test/predict/test_var_tissue_state_effect_pred.tsv)) 
 
 Notes:
-- We provided three trained and evaluated Seal models predicting gene expression of brain development at both tissue and cell type resolution. The first model can predict variant effects on gene expression under 122 tissue states of 7 developmental stages from early fetal to adulthood ([model info file](model/tissue_state_early_fetal_to_adult/tissue_state_early_fetal_to_adult_seal_model_summary.txt)). The second model can predict variant effects on gene expression under 598 cell states of early fetal stage ([model info file](model/cell_state_early_fetal/cell_state_early_fetal_seal_model_summary.txt)). The third model can predict variant effects on gene expression under 82 cell states of 6 developmental stages from mid fetal to adulthood ([model info file](model/cell_state_mid_fetal_to_adult/cell_state_mid_fetal_to_adult_seal_model_summary.txt)). For detailed information about the cell states, please check [the annotation file](resource/cell_state_annotation.xlsx).
+- Seal can predict gene expression of brain development at two levels of resolution: cell state and brain region state. The cell state model can predict variant effect on gene expression in 802 cell states including (i) 82 prefrontal cortex cell states across 6 stages from mid fetal to adulthood from scRNA-seq profling of 18 cell types in prefrontal cortex ([model info file](model/cell_state_mid_fetal_to_adult/cell_state_mid_fetal_to_adult_seal_model_summary.txt)); (ii) 598 cell states of early fetal stage from scRNA-seq profling of whole brain that involves 12 cell types in 23 brain regions ([model info file](model/cell_state_early_fetal/cell_state_early_fetal_seal_model_summary.txt)). The brain region state model can predict variant effects on gene expression under 122 brain region states across 7 stages from early fetal to adulthood from bulk RNA-seq profiling that invovles 26 brain regions ([model info file](model/tissue_state_early_fetal_to_adult/tissue_state_early_fetal_to_adult_seal_model_summary.txt)). For detailed information about the cell states and brain region states, please check [the annotation file](resource/cell_state_annotation.xlsx).
+
 - Our models were trained with sequence from the hg19 reference genome assembly. Users can use [UCSC lift genome annotations](https://genome.ucsc.edu/cgi-bin/hgLiftOver) for liftover coordinates of other assembly to hg19. Alternatively, users can also replace the input gene annotation BED file (`--gene_bed_file` argument) and input reference genome fasta file (`--ref_genome_file` argument) with files of the preferred assembly.  
 
 ### Training a sequence-to-expression transfer learning model from scratch 
@@ -93,4 +110,11 @@ Arguments:
 
 ## Help
 Please post in the Github issues or e-mail Yun Hao [yhao@flatironinstitute.org](mailto:yhao@flatironinstitute.org) with any questions about the repository, requests for more data, etc.
+
+## References
+Avsec, Ž. et al. Effective gene expression prediction from sequence by integrating long-range interactions. Nat Methods 18, 1196–1203 (2021).
+Avsec, Ž. et al. Advancing regulatory variant effect prediction with AlphaGenome. Nature 649, 1206–1218 (2026).
+Herring, C. A. et al. Human prefrontal cortex gene regulatory dynamics from gestation to adulthood at single-cell resolution. Cell 185, 4428–4447.e28 (2022).
+Braun, E. et al. Comprehensive cell atlas of the first-trimester developing human brain. Science 382, eadf1226 (2023).
+Wang, D. et al. Comprehensive functional genomic resource and integrative model for the human brain. Science 362, (2018).
 

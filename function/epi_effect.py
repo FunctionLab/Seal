@@ -7,7 +7,7 @@
 import sys
 import numpy as np
 import pandas as pd
-import pyfasta
+import pyfastx
 import torch
 from torch import nn
 
@@ -81,9 +81,27 @@ def fetch_sequence(genome, chrom, pos, ref, alt, shift, input_len):
 
     ## 1. Obtain the starting and ending coordinate of sequence centered on the ref/alt allele 
     window_len = input_len + 100
-    start_pos = pos + shift - int(window_len / 2 - 1)
+    start_pos = pos + shift - int(window_len / 2)
     end_pos = pos + shift + int(window_len / 2)
-    f_seq = genome.sequence({'chr': chrom, 'start': start_pos, 'stop': end_pos})
+    chr_len = len(genome[chrom])
+    if start_pos > chr_len:
+        f_seq = ''
+    elif start_pos < chr_len and start_pos >= 0 and end_pos > chr_len:
+        end_pos = chr_len
+        f_seq = genome[chrom][start_pos:end_pos].seq
+    elif start_pos < 0 and end_pos > 0:
+        start_pos = 0
+        f_seq = genome[chrom][start_pos:end_pos].seq
+    elif end_pos <= 0:
+        f_seq = ''
+    else:
+        f_seq = genome[chrom][start_pos:end_pos].seq
+    #
+    if len(f_seq) < window_len:
+        if start_pos == 0:
+            f_seq = 'N' * (window_len - len(f_seq)) + f_seq
+        else:
+            f_seq = f_seq + 'N' * (window_len - len(f_seq))
 
     ## 2. Fetch sequence from fasta object
     mut_lower = int(window_len / 2 - 1 - shift)
@@ -147,7 +165,7 @@ def predict_variant_chromatin_effect(var_df, fasta_file, shift, input_len, model
         # batch_size (int): batch size for running BELUGA
 
     ## 1. Fetch genome sequence around the ref/alt allele of each variant 
-    genome = pyfasta.Fasta(fasta_file)
+    genome = pyfastx.Fasta(fasta_file)
     N_var = var_df.shape[0]
     ref_seqs = [''] * N_var
     alt_seqs = [''] * N_var
