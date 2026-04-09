@@ -113,8 +113,12 @@ Please post in the Github issues or e-mail Yun Hao [yhao@flatironinstitute.org](
 
 ## References
 Avsec, Ž. et al. Effective gene expression prediction from sequence by integrating long-range interactions. Nat Methods 18, 1196–1203 (2021).
+
 Avsec, Ž. et al. Advancing regulatory variant effect prediction with AlphaGenome. Nature 649, 1206–1218 (2026).
+
 Herring, C. A. et al. Human prefrontal cortex gene regulatory dynamics from gestation to adulthood at single-cell resolution. Cell 185, 4428–4447.e28 (2022).
+
 Braun, E. et al. Comprehensive cell atlas of the first-trimester developing human brain. Science 382, eadf1226 (2023).
+
 Wang, D. et al. Comprehensive functional genomic resource and integrative model for the human brain. Science 362, (2018).
 
